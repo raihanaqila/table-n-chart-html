@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>ECharts</title>
+    <!-- Include the ECharts file you just downloaded -->
+    <script src="echarts.min.js"></script>
+</head>
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #cccccc;
+        padding: 10px;
+    }
+
+    th {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    tr:hover {
+        background-color: black;
+        color: white;
+    }
+</style>
+<!-- Prepare a DOM with a defined width and height for ECharts -->
+<div id="main" style="width: 600px;height:400px;"></div>
+<script>
+    let sortDirection = false;
+    let personData = [
+        { name: 'Sales', max: 6500 },
+        { name: 'Administration', max: 16000 },
+        { name: 'Information Technology', max: 30000 },
+        { name: 'Customer Support', max: 38000 },
+        { name: 'Development', max: 52000 },
+        { name: 'Marketing', max: 25000 }
+    ];
+
+    window.onload = () => {
+        loadTableData(personData);
+    }
+
+    function loadTableData(personData) {
+        const tableBody = document.getElementById('tableData');
+        let dataHtml = '';
+
+        for(let person of personData) {
+            dataHtml += `<tr><td>${person.name}</td><td>${person.max}</td></tr>`;
+        }
+        console.log(dataHtml)
+        tableBody.innerHTML = dataHtml;
+    }
+
+    function sortColumn(columnName) {
+        const dataType = typeof personData[0][columnName];
+        sortDirection = !sortDirection;
+
+        switch(dataType) {
+            case 'number':
+                sortNumberColumn(sortDirection, columnName);
+                break;
+        }
+        loadTableData(personData);
+    }
+
+    function sortNumberColumn(sort, columnName) {
+        personData = personData.sort((p1, p2) => {
+            return sort ? p1[columnName] - p2[columnName] : p2[columnName] - p1[columnName]
+        });
+    }
+</script>
+<script type="text/javascript">
+
+
+// Initialize the echarts instance based on the prepared dom
+      var myChart = echarts.init(document.getElementById('main'));
+
+      // Specify the configuration items and data for the chart
+      var option = {
+        title: {
+          text: 'Basic Radar Chart'
+        },
+        tooltip: {},
+        legend: {
+          data: ['Allocated Budget', 'Actual Spending']
+        },
+        radar: {
+            // shape: 'circle',
+            indicator: [
+              { name: 'Sales', max: 6500 },
+              { name: 'Administration', max: 16000 },
+              { name: 'Information Technology', max: 30000 },
+              { name: 'Customer Support', max: 38000 },
+              { name: 'Development', max: 52000 },
+              { name: 'Marketing', max: 25000 }
+            ]
+          },
+        series: [
+          {
+            name: 'Budget vs spending',
+              type: 'radar',
+              data: [
+                {
+                  value: [4200, 3000, 20000, 35000, 50000, 18000],
+                  name: 'Allocated Budget'
+                },
+                {
+                  value: [5000, 14000, 28000, 26000, 42000, 21000],
+                  name: 'Actual Spending'
+                }
+              ]
+          }
+        ]
+      };
+
+
+      // Display the chart using the configuration items and data just specified.
+      myChart.setOption(option);
+    </script>
+<body>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th onclick ="sortColumn('max')">Max</th>
+        </tr>
+    </thead>
+
+    <tbody id="tableData"></tbody>
+</table>
+</body>
+</html>

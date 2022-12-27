@@ -1,0 +1,20 @@
+{
+  "name": "apache-echarts-53-ssr-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "canvas-table": "^0.3.0",
+    "echarts": "^5.4.1",
+    "nodejs-pptx": "^1.2.3",
+    "pptxgenjs": "^3.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "1.18.4"
+  },
+  "keywords": []
+}
+
